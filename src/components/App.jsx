@@ -1,9 +1,21 @@
 import React from 'react';
+import { CssBaseline } from '@mui/material';
+import { Routes, Route } from 'react-router-dom';
+import { Actors, MovieInformation, Profile, Navbar, Movies } from './index';
 
 function App() {
   return (
     <div>
-      App
+      <CssBaseline />
+      <Navbar />
+      <main>
+        <Routes>
+          <Route exact path="/" element={<Movies />} />
+          <Route exact path="/profile/:id" element={<Profile />} />
+          <Route exact path="/movie/:id" element={<MovieInformation />} />
+          <Route exact path="/actors/:id" element={<Actors />} />
+        </Routes>
+      </main>
     </div>
   );
 }
