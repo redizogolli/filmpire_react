@@ -1,0 +1,9 @@
+.imageLink{
+    display: flex;
+    justify-content: center;
+    padding: 10% 0;
+}
+
+.image{
+    width: 70%;
+}

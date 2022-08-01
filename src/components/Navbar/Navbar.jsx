@@ -16,7 +16,8 @@ import {
 } from '@mui/icons-material';
 import { styled, useTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-import Sidebar from '../Sidebar/Sidebar';
+import { Sidebar } from '..';
+import './Navbar.css';
 
 // Styling components
 const CustomToolBar = styled(Toolbar)(({ theme }) => ({
@@ -31,9 +32,16 @@ const CustomToolBar = styled(Toolbar)(({ theme }) => ({
 }));
 
 const CustomIconButton = styled(IconButton)(({ theme }) => ({
-  outline: 'none',
+  marginRight: theme.spacing(2),
   [theme.breakpoints.up('sm')]: {
     display: 'none',
+  },
+}));
+
+const CustomDrawer = styled(Drawer)(({ theme }) => ({
+  [theme.breakpoints.up('sm')]: {
+    width: '240px',
+    flexShrink: 0,
   },
 }));
 
@@ -51,7 +59,7 @@ function Navbar() {
               color="inherit"
               edge="start"
               onClick={() => {
-                setMobileOpen(!mobileOpen);
+                setMobileOpen((prev) => !prev);
               }}
             >
               <Menu />
@@ -89,17 +97,20 @@ function Navbar() {
       <div>
         <nav className="drawer">
           {isMobile ? (
-            <Drawer
+            <CustomDrawer
               variant="temporary"
               anchor="right"
               open={mobileOpen}
-              className="drawerBackground"
+              onClose={() => setMobileOpen((previousState) => !previousState)}
+              classes={{ paper: 'drawerPaper' }}
               ModalProps={{ keepMounted: true }}
             >
-              <Sidebar />
-            </Drawer>
+              <Sidebar setMobileOpen={setMobileOpen} />
+            </CustomDrawer>
           ) : (
-            <Drawer />
+            <CustomDrawer variant="permanent" open>
+              <Sidebar setMobileOpen={setMobileOpen} />
+            </CustomDrawer>
           )}
         </nav>
       </div>

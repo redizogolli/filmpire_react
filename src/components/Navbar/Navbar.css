@@ -1,0 +1,7 @@
+.drawerPaper{
+    width: 240px;
+}
+.linkButton:hover{
+    color: white !important;
+    text-decoration: none;
+}
