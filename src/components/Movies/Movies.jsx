@@ -39,7 +39,6 @@ function Movies() {
     );
   }
 
-  console.log(data);
   return (
     <div>
       <MovieList movies={data} />

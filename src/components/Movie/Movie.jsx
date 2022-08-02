@@ -29,14 +29,14 @@ function Movie({ movie, index }) {
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               marginTop: '10px',
-              marginBottom: '0',
+              marginBottom: 0,
               textAlign: 'center',
             }}
           >
             {movie.title}
           </Typography>
           <Tooltip title={`${movie.vote_average}/10`} disableTouchListener>
-            <div>
+            <div className="movie__ratingContainer">
               <Rating readOnly value={movie.vote_average / 2} size="small" precision={0.1} />
             </div>
           </Tooltip>

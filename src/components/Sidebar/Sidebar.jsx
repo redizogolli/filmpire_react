@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import {
   Divider,
   List,
@@ -11,7 +10,9 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import { useGetGenresQuery } from '../../services/TMDB';
 import './Sidebar.css';
+import genreIcons from '../../assets/genres';
 
 const blueLogo = 'https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png';
 const redLogo = 'https://fontmeme.com/permalink/210930/6854ae5c7f76597cf8680e48a2c8a50a.png';
@@ -30,27 +31,9 @@ const categories = [
     value: 'upcoming',
   },
 ];
-const demoCategories = [
-  {
-    label: 'Comedy',
-    value: 'comedy',
-  },
-  {
-    label: 'Drama',
-    value: 'drama',
-  },
-  {
-    label: 'Action',
-    value: 'action',
-  },
-  {
-    label: 'Adventure',
-    value: 'adventure',
-  },
-];
-
-function Sidebar({ setMobileOpen }) {
+function Sidebar() {
   const theme = useTheme();
+  const { data, isFetching } = useGetGenresQuery();
   return (
     <>
       <Link to="/" className="imageLink">
@@ -66,15 +49,13 @@ function Sidebar({ setMobileOpen }) {
         {categories.map(({ label, value }) => (
           <Link key={value} className="links" to="/" style={{ color: theme.palette.text.primary, textDecoration: 'none' }}>
             <ListItem onClick={() => {}} button>
-              {/* <ListItemIcon>
-                <img
-                  src={redLogo}
-                  alt="Logo"
-                  className="genreImages"
-                  height={30}
-                  style={{ filter: theme.palette.mode === 'dark' ? 'dark' : 'invert(1)' }}
-                />
-              </ListItemIcon> */}
+              <img
+                src={genreIcons[label.toLowerCase()]}
+                alt="Logo"
+                className="genreImages"
+                height={30}
+                style={{ filter: theme.palette.mode === 'dark' ? 'invert(1)' : 'dark' }}
+              />
               <ListItemText primary={label} />
             </ListItem>
           </Link>
@@ -83,22 +64,26 @@ function Sidebar({ setMobileOpen }) {
       <Divider />
       <List>
         <ListSubheader>Genres</ListSubheader>
-        {demoCategories.map(({ label, value }) => (
-          <Link key={value} className="links" to="/" style={{ color: theme.palette.text.primary, textDecoration: 'none' }}>
+        {isFetching ? (
+          <Box display="flex" justifyContent="center">
+            <CircularProgress />
+          </Box>
+        ) : (data.genres.map(({ id, name }) => (
+          <Link key={id} className="links" to="/" style={{ color: theme.palette.text.primary, textDecoration: 'none' }}>
             <ListItem onClick={() => {}} button>
-              {/* <ListItemIcon>
+              <ListItemIcon>
                 <img
-                  src={redLogo}
+                  src={genreIcons[name.toLowerCase()]}
                   alt="Logo"
                   className="genreImages"
                   height={30}
-                  style={{ filter: theme.palette.mode === 'dark' ? 'dark' : 'invert(1)' }}
+                  style={{ filter: theme.palette.mode === 'dark' ? 'invert(1)' : 'dark' }}
                 />
-              </ListItemIcon> */}
-              <ListItemText primary={label} />
+              </ListItemIcon>
+              <ListItemText primary={name} />
             </ListItem>
           </Link>
-        ))}
+        )))}
       </List>
     </>
   );

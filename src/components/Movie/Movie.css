@@ -1,4 +1,6 @@
 .movie{
+    /* display: flex;
+    justify-content: center; */
     padding: 10px;
 }
 .movie__links{
@@ -17,4 +19,9 @@
 .movie__image:hover{
    transform: scale(1.05);
    transition: all 0.2s;
+}
+.movie__ratingContainer{
+    display: flex;
+    justify-content: center;
+    
 }
