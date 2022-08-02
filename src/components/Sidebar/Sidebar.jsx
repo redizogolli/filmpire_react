@@ -34,6 +34,7 @@ const categories = [
   },
 ];
 function Sidebar() {
+  const { genreIdOrCategoryName } = useSelector((state) => state.currentGenreOrCategory);
   const theme = useTheme();
   const { data, isFetching } = useGetGenresQuery();
   const dispatch = useDispatch();
@@ -73,7 +74,7 @@ function Sidebar() {
           </Box>
         ) : (data.genres.map(({ id, name }) => (
           <Link key={id} className="links" to="/" style={{ color: theme.palette.text.primary, textDecoration: 'none' }}>
-            <ListItem onClick={() => dispatch(selectGenreOrCategory(name))} button>
+            <ListItem onClick={() => dispatch(selectGenreOrCategory(id))} button>
               <ListItemIcon>
                 <img
                   src={genreIcons[name.toLowerCase()]}
