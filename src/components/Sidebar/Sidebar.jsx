@@ -10,6 +10,8 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
 import { useGetGenresQuery } from '../../services/TMDB';
 import './Sidebar.css';
 import genreIcons from '../../assets/genres';
@@ -34,6 +36,7 @@ const categories = [
 function Sidebar() {
   const theme = useTheme();
   const { data, isFetching } = useGetGenresQuery();
+  const dispatch = useDispatch();
   return (
     <>
       <Link to="/" className="imageLink">
@@ -48,7 +51,7 @@ function Sidebar() {
         <ListSubheader>Categories</ListSubheader>
         {categories.map(({ label, value }) => (
           <Link key={value} className="links" to="/" style={{ color: theme.palette.text.primary, textDecoration: 'none' }}>
-            <ListItem onClick={() => {}} button>
+            <ListItem onClick={() => dispatch(selectGenreOrCategory(value))} button>
               <img
                 src={genreIcons[label.toLowerCase()]}
                 alt="Logo"
@@ -70,7 +73,7 @@ function Sidebar() {
           </Box>
         ) : (data.genres.map(({ id, name }) => (
           <Link key={id} className="links" to="/" style={{ color: theme.palette.text.primary, textDecoration: 'none' }}>
-            <ListItem onClick={() => {}} button>
+            <ListItem onClick={() => dispatch(selectGenreOrCategory(name))} button>
               <ListItemIcon>
                 <img
                   src={genreIcons[name.toLowerCase()]}
