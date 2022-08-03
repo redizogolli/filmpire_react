@@ -18,9 +18,17 @@ const authSlice = createSlice({
       state.sessionId = localStorage.getItem('session_id');
       localStorage.setItem('accountId', action.payload.id);
     },
+    unsetUser: (state) => {
+      state.user = {};
+      state.isAuthenticated = false;
+      state.sessionId = '';
+      localStorage.removeItem('session_id');
+      localStorage.removeItem('accountId');
+      localStorage.removeItem('request_token');
+    },
   },
 });
-export const { setUser } = authSlice.actions;
+export const { setUser, unsetUser } = authSlice.actions;
 
 export default authSlice.reducer;
 
