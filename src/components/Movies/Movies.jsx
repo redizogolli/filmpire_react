@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Box, CircularProgress, useMediaQuery, Typography } from '@mui/material';
+import { Box, CircularProgress, useMediaQuery, Typography, Pagination } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { MovieList } from '..';
-import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
 import { useGetMoviesQuery } from '../../services/TMDB';
 
 function Movies() {
   const [page, setPage] = useState(1);
-  const { genreIdOrCategoryName } = useSelector((state) => state.currentGenreOrCategory);
-  const { data, error, isFetching } = useGetMoviesQuery({ genreIdOrCategoryName, page });
+  const { genreIdOrCategoryName, searchQuery } = useSelector((state) => state.currentGenreOrCategory);
+  const { data, error, isFetching } = useGetMoviesQuery({ genreIdOrCategoryName, page, searchQuery });
+
+  const changePage = (event, value) => {
+    setPage(value);
+  };
 
   if (isFetching) {
     return (
@@ -40,10 +43,11 @@ function Movies() {
       </Box>
     );
   }
-
+  console.log(data);
   return (
     <div>
       <MovieList movies={data} />
+      <Pagination count={data.total_pages > 500 ? 500 : data.total_pages} page={page} onChange={changePage} />
     </div>
   );
 }
