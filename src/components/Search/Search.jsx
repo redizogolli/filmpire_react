@@ -26,8 +26,16 @@ const CustomInput = styled(TextField)(({ theme }) => ({
 }));
 
 function Search() {
+  const { searchQuery } = useSelector((state) => state.currentGenreOrCategory);
   const dispatch = useDispatch();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(searchQuery);
+  // update query in store when user changes input
+  useEffect(
+    () => {
+      setQuery(searchQuery);
+    },
+    [searchQuery],
+  );
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       dispatch(searchMovie(query));
@@ -40,6 +48,7 @@ function Search() {
         onKeyPress={handleKeyPress}
         onChange={(e) => setQuery(e.target.value)}
         variant="standard"
+        value={query}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

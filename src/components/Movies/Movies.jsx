@@ -43,7 +43,6 @@ function Movies() {
       </Box>
     );
   }
-  console.log(data);
   return (
     <div>
       <MovieList movies={data} />
