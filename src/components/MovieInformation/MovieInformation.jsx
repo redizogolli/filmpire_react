@@ -5,9 +5,10 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { styled, useTheme } from '@mui/material/styles';
-import { useGetMovieQuery } from '../../services/TMDB';
+import { useGetMovieQuery, useGetRecommendationsQuery } from '../../services/TMDB';
 import genreIcons from '../../assets/genres';
 import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
+import { MovieList } from '..';
 
 import './MovieInformation.css';
 
@@ -43,6 +44,8 @@ function MovieInformation() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { data, isFetching, error } = useGetMovieQuery({ id });
+
+  const { data: recomandations, isFetching: isRecomandationsFetching } = useGetRecommendationsQuery({ list: 'recommendations', movie_id: id });
 
   const isMovieFavorited = true;
   const isMovieWatchlisted = true;
@@ -176,6 +179,13 @@ function MovieInformation() {
           </div>
         </Grid>
       </Grid>
+      <Box marginTop="5rem" width="100%">
+        <Typography variant="h3" gutterBottom align="center">
+          You May Also Like
+        </Typography>
+        {/* Loop through recomended movies */}
+        {recomandations ? <MovieList movies={recomandations} numberOfMovies={12} /> : <Box>Sorry, nothing was found</Box>}
+      </Box>
     </CustomGrid>
   );
 }
