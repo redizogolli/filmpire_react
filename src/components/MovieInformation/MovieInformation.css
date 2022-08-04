@@ -24,3 +24,12 @@
     justify-content: space-between;
     width: 100%;
 }
+.modal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.video{
+    width: 50%;
+    height: 50%;
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Typography, Button, ButtonGroup, Grid, Box, CircularProgress, useMediaQuery, Rating } from '@mui/material';
 import { Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, FavoriteBorderOutlined, Remove, ArrowBack } from '@mui/icons-material';
 import { Link, useParams } from 'react-router-dom';
@@ -43,9 +43,9 @@ function MovieInformation() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { id } = useParams();
+  const [open, setOpen] = useState(false);
   const { data, isFetching, error } = useGetMovieQuery({ id });
-
-  const { data: recomandations, isFetching: isRecomandationsFetching } = useGetRecommendationsQuery({ list: 'recommendations', movie_id: id });
+  const { data: recomandations } = useGetRecommendationsQuery({ list: 'recommendations', movie_id: id });
 
   const isMovieFavorited = true;
   const isMovieWatchlisted = true;
@@ -156,9 +156,11 @@ function MovieInformation() {
                 <Button target="_blank" rel="noopener noreferrer" href={`https://www.imdb.com/title/${data.imdb_id}`} endIcon={<MovieIcon />}>
                   IMDB
                 </Button>
-                <Button onClick={() => {}} href="#" endIcon={<Theaters />}>
+                {data?.videos?.results?.length > 0 && (
+                <Button onClick={() => { setOpen(true); }} href="#" endIcon={<Theaters />}>
                   Trailer
                 </Button>
+                )}
               </ButtonGroup>
             </Grid>
             <Grid item xs={12} sm={6} className="buttonsContainer" sx={{ [theme.breakpoints.down('sm')]: { flexDirection: 'column' } }}>
@@ -183,9 +185,26 @@ function MovieInformation() {
         <Typography variant="h3" gutterBottom align="center">
           You May Also Like
         </Typography>
-        {/* Loop through recomended movies */}
-        {recomandations ? <MovieList movies={recomandations} numberOfMovies={12} /> : <Box>Sorry, nothing was found</Box>}
+        {recomandations
+          ? <MovieList movies={recomandations} numberOfMovies={12} />
+          : <Box>Sorry, nothing was found</Box>}
       </Box>
+      {data?.videos?.results?.length > 0 && (
+      <Modal closeAfterTransition className="modal" open={open} onClose={() => { setOpen(false); }}>
+        <iframe
+          autoPlay
+          className="video"
+          frameBorder={0}
+          title="trailer"
+          src={`https://www.youtube.com/embed/${data.videos.results[0].key}`}
+          allow="autoplay"
+          style={{ [theme.breakpoints.down('sm')]: {
+            width: '90%',
+            height: '90%',
+          } }}
+        />
+      </Modal>
+      )}
     </CustomGrid>
   );
 }
