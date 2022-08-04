@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Box, CircularProgress, useMediaQuery, Typography, Pagination } from '@mui/material';
+import { Box, CircularProgress, useMediaQuery, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { MovieList } from '..';
+import { MovieList, Pagination } from '..';
 import { useGetMoviesQuery } from '../../services/TMDB';
 
 function Movies() {
@@ -46,7 +46,8 @@ function Movies() {
   return (
     <div>
       <MovieList movies={data} />
-      <Pagination count={data.total_pages > 500 ? 500 : data.total_pages} page={page} onChange={changePage} />
+      <Pagination currentPage={page} setPage={setPage} totalPages={data.total_pages > 500 ? 500 : data.total_pages} />
+      {/* <Pagination count={data.total_pages > 500 ? 500 : data.total_pages} page={page} onChange={changePage} /> */}
     </div>
   );
 }

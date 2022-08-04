@@ -1,0 +1,11 @@
+.pagination{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+.pagination__button{
+    margin: 30px 20px;
+}
+.pagination_pageNumber{
+    margin: 0 10px !important;
+}
