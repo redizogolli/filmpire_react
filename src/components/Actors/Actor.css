@@ -1,0 +1,6 @@
+.actor__image{
+    max-width: 90%;
+    border-radius: 20px;
+    object-fit: cover;
+    box-shadow: 0.5em 0.5em 1em;
+}
