@@ -7,8 +7,20 @@
 .genreImage{
     margin-right: 10px;
 }
-.links{
+.genreLink{
     display: flex;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
+}
+.castImage{
+    width: 100%;
+    max-width: 7em;
+    height: 8em;
+    object-fit: cover;   
+}
+.buttonsContainer{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }

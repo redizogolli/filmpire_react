@@ -43,6 +43,16 @@ function MovieInformation() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { data, isFetching, error } = useGetMovieQuery({ id });
+
+  const isMovieFavorited = true;
+  const isMovieWatchlisted = true;
+
+  // event handlers
+  const addToFavorites = () => {
+  };
+  const addToWatchlist = () => {
+  };
+
   if (isFetching) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center">
@@ -91,9 +101,10 @@ function MovieInformation() {
               to="/"
               onClick={() => dispatch(selectGenreOrCategory(genre.id))}
               key={index}
-              sx={{ [theme.breakpoints.down('sm')]: {
-                padding: '0.5rem 1rem',
-              } }}
+              sx={{
+                [theme.breakpoints.down('sm')]: {
+                  padding: '0.5rem 1rem',
+                } }}
             >
               <img
                 src={genreIcons[genre.name.toLowerCase()]}
@@ -107,6 +118,62 @@ function MovieInformation() {
               </Typography>
             </Link>
           ))}
+        </Grid>
+        <Typography variant="h5" gutterBottom style={{ marginTop: '10px' }}>
+          Overview
+        </Typography>
+        <Typography style={{ marginBottom: '2rem' }}>
+          {data?.overview}
+        </Typography>
+        <Typography variant="h5" gutterBottom>
+          Top Cast
+        </Typography>
+        <Grid item container spacing={2}>
+          {data && data.credits.cast.map((character, index) => (
+            character.profile_path && (
+            <Grid key={index} item xs={4} md={2} component={Link} to={`/actors/${character.id}`} style={{ textDecoration: 'none' }}>
+              <img src={`https://image.tmdb.org/t/p/w500/${character.profile_path}`} alt={character.name} className="castImage" />
+              <Typography color="textPrimary" align="center">
+                {character.name}
+              </Typography>
+              <Typography color="textSecondary" align="center">
+                {character.character.split('/')[0]}
+              </Typography>
+            </Grid>
+            )
+          )).slice(0, 6)}
+        </Grid>
+        <Grid item container style={{ marginTop: '2rem' }}>
+          <div className="buttonsContainer" sx={{ [theme.breakpoints.down('sm')]: { flexDirection: 'column' } }}>
+            <Grid item xs={12} sm={6} className="buttonsContainer" sx={{ [theme.breakpoints.down('sm')]: { flexDirection: 'column' } }}>
+              <ButtonGroup size="medium" variant="outlined">
+                <Button target="_blank" rel="noopener noreferrer" href={data?.homepage} endIcon={<Language />}>
+                  WEBSITE
+                </Button>
+                <Button target="_blank" rel="noopener noreferrer" href={`https://www.imdb.com/title/${data.imdb_id}`} endIcon={<MovieIcon />}>
+                  IMDB
+                </Button>
+                <Button onClick={() => {}} href="#" endIcon={<Theaters />}>
+                  Trailer
+                </Button>
+              </ButtonGroup>
+            </Grid>
+            <Grid item xs={12} sm={6} className="buttonsContainer" sx={{ [theme.breakpoints.down('sm')]: { flexDirection: 'column' } }}>
+              <ButtonGroup size="medium" variant="outlined">
+                <Button onClick={addToFavorites} endIcon={isMovieFavorited ? <FavoriteBorderOutlined /> : <Favorite />}>
+                  {isMovieFavorited ? 'UnFavorite' : 'Favorite'}
+                </Button>
+                <Button onClick={addToWatchlist} endIcon={isMovieWatchlisted ? <Remove /> : <PlusOne />}>
+                  Watchlist
+                </Button>
+                <Button endIcon={<ArrowBack />} sx={{ borderColor: 'primary.main' }}>
+                  <Typography style={{ textDecoration: 'none' }} component={Link} to="/" color="inherit" variant="subtitle2">
+                    Back
+                  </Typography>
+                </Button>
+              </ButtonGroup>
+            </Grid>
+          </div>
         </Grid>
       </Grid>
     </CustomGrid>
