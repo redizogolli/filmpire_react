@@ -4,8 +4,10 @@ import { Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, FavoriteBord
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import { useGetMovieQuery } from '../../services/TMDB';
+import genreIcons from '../../assets/genres';
+import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
 
 import './MovieInformation.css';
 
@@ -23,20 +25,22 @@ const CustomPosterImage = styled('img')(({ theme }) => ({
   borderRadius: '20px',
   boxShadow: '0.5em 1em 1em rgb(64,64,70)',
   width: '80%',
+  [theme.breakpoints.down('md')]: {
+    margin: '0 auto',
+    width: '50%',
+    height: '350px',
+  },
   [theme.breakpoints.down('sm')]: {
     margin: '0 auto',
     width: '100%',
     height: '350px',
     marginBottom: '30px',
   },
-  [theme.breakpoints.down('md')]: {
-    margin: '0 auto',
-    width: '50%',
-    height: '350px',
-  },
 }));
 
 function MovieInformation() {
+  const theme = useTheme();
+  const dispatch = useDispatch();
   const { id } = useParams();
   const { data, isFetching, error } = useGetMovieQuery({ id });
   if (isFetching) {
@@ -55,7 +59,7 @@ function MovieInformation() {
       </Box>
     );
   }
-  console.log(data);
+
   return (
     <CustomGrid container className="containerSpaceAround">
       <Grid item sm={12} lg={4}>
@@ -75,8 +79,35 @@ function MovieInformation() {
               {data?.vote_average.toFixed(2)} / 10
             </Typography>
           </Box>
+          <Typography variant="h6" align="center" gutterBottom>
+            {data?.runtime} min {data?.spoken_languages.length > 0 ? `/ ${data?.spoken_languages[0].name}` : ''}
+          </Typography>
         </CustomGrid>
         <Grid />
+        <Grid className="genresContainer">
+          {data?.genres.map((genre, index) => (
+            <Link
+              className="genreLink"
+              to="/"
+              onClick={() => dispatch(selectGenreOrCategory(genre.id))}
+              key={index}
+              sx={{ [theme.breakpoints.down('sm')]: {
+                padding: '0.5rem 1rem',
+              } }}
+            >
+              <img
+                src={genreIcons[genre.name.toLowerCase()]}
+                alt="Logo"
+                className="genreImage"
+                height={30}
+                style={{ filter: theme.palette.mode === 'dark' && 'invert(1)' }}
+              />
+              <Typography color="textPrimary" variant="subtitle1">
+                {genre.name}
+              </Typography>
+            </Link>
+          ))}
+        </Grid>
       </Grid>
     </CustomGrid>
   );

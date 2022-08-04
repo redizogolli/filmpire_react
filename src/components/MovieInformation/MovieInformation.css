@@ -1,0 +1,14 @@
+.genresContainer{
+    margin: 10px 0 !important;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.genreImage{
+    margin-right: 10px;
+}
+.links{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
