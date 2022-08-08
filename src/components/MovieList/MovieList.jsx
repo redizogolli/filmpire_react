@@ -12,6 +12,7 @@ const MoviesContainer = styled(Grid)(({ theme }) => ({
   overflow: 'auto',
   [theme.breakpoints.down('sm')]: {
     justifyContent: 'center',
+    alignItems: 'center',
   },
 }));
 function MovieList({ movies, numberOfMovies }) {

@@ -29,7 +29,9 @@ const CustomPosterImage = styled('img')(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     margin: '0 auto',
     width: '50%',
-    height: '350px',
+    display: 'flex',
+    marginBottom: '30px',
+    // height: '350px',
   },
   [theme.breakpoints.down('sm')]: {
     margin: '0 auto',
@@ -37,6 +39,10 @@ const CustomPosterImage = styled('img')(({ theme }) => ({
     height: '350px',
     marginBottom: '30px',
   },
+}));
+
+const CustomButtonsControllerDiv = styled('div')(({ theme }) => ({
+  [theme.breakpoints.down('md')]: { flexDirection: 'column' },
 }));
 
 function MovieInformation() {
@@ -75,7 +81,7 @@ function MovieInformation() {
 
   return (
     <CustomGrid container className="containerSpaceAround">
-      <Grid item sm={12} lg={4}>
+      <Grid item sm={12} lg={4} style={{ display: 'flex', marginBottom: '30px' }}>
         <CustomPosterImage className="poster" src={`https://image.tmdb.org/t/p/w500${data.poster_path}`} alt={data?.title} />
       </Grid>
       <Grid item container direction="column" lg={7}>
@@ -93,7 +99,7 @@ function MovieInformation() {
             </Typography>
           </Box>
           <Typography variant="h6" align="center" gutterBottom>
-            {data?.runtime} min {data?.spoken_languages.length > 0 ? `/ ${data?.spoken_languages[0].name}` : ''}
+            {`${data?.runtime}min | Language: ${data?.spoken_languages[0].name}`}
           </Typography>
         </CustomGrid>
         <Grid />
@@ -147,9 +153,9 @@ function MovieInformation() {
           )).slice(0, 6)}
         </Grid>
         <Grid item container style={{ marginTop: '2rem' }}>
-          <div className="buttonsContainer" sx={{ [theme.breakpoints.down('sm')]: { flexDirection: 'column' } }}>
+          <CustomButtonsControllerDiv className="buttonsContainer">
             <Grid item xs={12} sm={6} className="buttonsContainer" sx={{ [theme.breakpoints.down('sm')]: { flexDirection: 'column' } }}>
-              <ButtonGroup size="medium" variant="outlined">
+              <ButtonGroup size="small" variant="outlined">
                 <Button target="_blank" rel="noopener noreferrer" href={data?.homepage} endIcon={<Language />}>
                   WEBSITE
                 </Button>
@@ -164,7 +170,7 @@ function MovieInformation() {
               </ButtonGroup>
             </Grid>
             <Grid item xs={12} sm={6} className="buttonsContainer" sx={{ [theme.breakpoints.down('sm')]: { flexDirection: 'column' } }}>
-              <ButtonGroup size="medium" variant="outlined">
+              <ButtonGroup size="small" variant="outlined">
                 <Button onClick={addToFavorites} endIcon={isMovieFavorited ? <FavoriteBorderOutlined /> : <Favorite />}>
                   {isMovieFavorited ? 'UnFavorite' : 'Favorite'}
                 </Button>
@@ -178,7 +184,7 @@ function MovieInformation() {
                 </Button>
               </ButtonGroup>
             </Grid>
-          </div>
+          </CustomButtonsControllerDiv>
         </Grid>
       </Grid>
       <Box marginTop="5rem" width="100%">

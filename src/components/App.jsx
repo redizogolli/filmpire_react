@@ -12,7 +12,7 @@ function App() {
       <main className="content">
         <div className="toolbar" />
         <Routes>
-          <Route exact path="/" element={<Movies />} />
+          <Route exact path={['/', '/approved']} element={<Movies />} />
           <Route element={<ProtectedRoute />}>
             <Route exact path="/profile/:id" element={(<Profile />)} />
           </Route>

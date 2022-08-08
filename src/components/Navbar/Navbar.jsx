@@ -15,7 +15,7 @@ import {
   Brightness7,
 } from '@mui/icons-material';
 import { styled, useTheme } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Sidebar, Search } from '..';
 import { fetchToken, createSessionId, moviesApi } from '../../utils';
@@ -56,6 +56,8 @@ function Navbar() {
   const theme = useTheme();
   const token = localStorage.getItem('request_token');
   const sessionIdFromLocalStorage = localStorage.getItem('session_id');
+  const location = useLocation();
+  console.log(location.pathname);
 
   useEffect(() => {
     const logInUser = async () => {
@@ -93,7 +95,7 @@ function Navbar() {
           <IconButton color="inherit" onClick={() => {}} sx={{ ml: 1 }}>
             {theme.palette.mode === 'light' ? <Brightness4 /> : <Brightness7 />}
           </IconButton>
-          {!isMobile && <Search />}
+          {!isMobile && location.pathname === '/' && <Search />}
           <div>
             {!isAuthenticated ? (
               <Button color="inherit" onClick={fetchToken}>
@@ -116,7 +118,7 @@ function Navbar() {
               </Button>
             )}
           </div>
-          {isMobile && <Search />}
+          {isMobile && location.pathname === '/' && <Search />}
         </CustomToolBar>
       </AppBar>
       <div>

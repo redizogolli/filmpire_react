@@ -9,7 +9,7 @@ function Movie({ movie, index }) {
   return (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} className="movie">
       <Grow in key={index} timeout={(index + 1) * 250}>
-        <Link className="movie__links" to={`/movie/${movie.id}`} sx={{ [theme.breakpoints.up('xs')]: { display: 'flex', flexDirection: 'column' } }}>
+        <Link className="movie__links" to={`/movie/${movie.id}`} sx={{ [theme.breakpoints.up('xs')]: { display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' } }}>
           <img
             src={
               movie.poster_path
