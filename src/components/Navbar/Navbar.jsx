@@ -57,7 +57,6 @@ function Navbar() {
   const token = localStorage.getItem('request_token');
   const sessionIdFromLocalStorage = localStorage.getItem('session_id');
   const location = useLocation();
-  console.log(location.pathname);
 
   useEffect(() => {
     const logInUser = async () => {
