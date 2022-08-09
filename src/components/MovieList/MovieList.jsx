@@ -15,10 +15,11 @@ const MoviesContainer = styled(Grid)(({ theme }) => ({
     alignItems: 'center',
   },
 }));
-function MovieList({ movies, numberOfMovies }) {
+function MovieList({ movies, numberOfMovies, excludeFirst }) {
+  const startFrom = excludeFirst ? 1 : 0;
   return (
     <MoviesContainer container className="moviesContainer">
-      {movies.results.slice(0, numberOfMovies).map((movie, index) => (
+      {movies.results.slice(startFrom, numberOfMovies).map((movie, index) => (
         <Movie key={index} movie={movie} index={index} />
       ))}
     </MoviesContainer>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   Divider,
   List,
@@ -33,11 +34,16 @@ const categories = [
     value: 'upcoming',
   },
 ];
-function Sidebar() {
+function Sidebar({ setMobileOpen }) {
   const { genreIdOrCategoryName } = useSelector((state) => state.currentGenreOrCategory);
   const theme = useTheme();
   const { data, isFetching } = useGetGenresQuery();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [genreIdOrCategoryName]);
+
   return (
     <>
       <Link to="/" className="imageLink">
