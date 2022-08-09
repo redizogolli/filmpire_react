@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { ColorModeContext } from '../../utils/ToogleColorMode';
 import { fetchToken } from '../../utils';
 import { unsetUser } from '../../features/auth';
+import { selectGenreOrCategory, searchMovie } from '../../features/currentGenreOrCategory';
 
 const useAlanAI = () => {
   const { setMode } = useContext(ColorModeContext);
@@ -15,9 +16,21 @@ const useAlanAI = () => {
   useEffect(() => {
     alanBtn({
       key: process.env.REACT_APP_ALANAI_SKD_KEY,
-      onCommand: ({ command, mode }) => {
-        if (command === 'changeMode') {
-          console.log('Changing mode to: ', mode);
+      onCommand: ({ command, mode, genres, genreOrCategory, movie }) => {
+        if (command === 'chooseGenre') {
+          const foundGenre = genres.find(({ name }) => name.toLowerCase() === genreOrCategory.toLowerCase());
+          if (foundGenre) {
+            navigate('/');
+            dispatch(selectGenreOrCategory(foundGenre.id));
+          } else {
+            const category = genreOrCategory.startsWith('top') ? 'top_rated' : genreOrCategory;
+            navigate('/');
+            dispatch(selectGenreOrCategory(category));
+          }
+        } else if (command === 'searchMovie') {
+          navigate('/');
+          dispatch(searchMovie(movie));
+        } else if (command === 'changeMode') {
           if (mode === 'light') {
             setMode('light');
           } else {
