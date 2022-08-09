@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   AppBar,
   IconButton,
@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Sidebar, Search } from '..';
 import { fetchToken, createSessionId, moviesApi } from '../../utils';
 import { userSelector, setUser } from '../../features/auth';
+import { ColorModeContext } from '../../utils/ToogleColorMode';
 import './Navbar.css';
 
 // Styling components
@@ -53,7 +54,10 @@ function Navbar() {
   const dispatch = useDispatch();
   const isMobile = useMediaQuery('(max-width:600px)');
   const [mobileOpen, setMobileOpen] = useState(false);
+
   const theme = useTheme();
+  const { toogleColorMode } = useContext(ColorModeContext);
+
   const token = localStorage.getItem('request_token');
   const sessionIdFromLocalStorage = localStorage.getItem('session_id');
   const location = useLocation();
@@ -91,7 +95,7 @@ function Navbar() {
               <Menu />
             </CustomIconButton>
           )}
-          <IconButton color="inherit" onClick={() => {}} sx={{ ml: 1 }}>
+          <IconButton color="inherit" onClick={() => { toogleColorMode(); }} sx={{ ml: 1 }}>
             {theme.palette.mode === 'light' ? <Brightness4 /> : <Brightness7 />}
           </IconButton>
           {!isMobile && location.pathname === '/' && <Search />}
