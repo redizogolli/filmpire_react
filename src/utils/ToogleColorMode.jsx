@@ -19,7 +19,7 @@ function ToogleColorMode({ children }) {
   }), [mode]);
 
   return (
-    <ColorModeContext.Provider value={{ mode, toogleColorMode }}>
+    <ColorModeContext.Provider value={{ mode, setMode, toogleColorMode }}>
       <ThemeProvider theme={theme}>
         {children}
       </ThemeProvider>

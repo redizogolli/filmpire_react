@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { CssBaseline } from '@mui/material';
 import { Routes, Route } from 'react-router-dom';
 import { Actors, MovieInformation, Profile, Navbar, Movies, ProtectedRoute } from './index';
+import useAlanAI from './AlanAI/AlanAI';
 import './App.css';
 
 function App() {
+  const alanBtnContainer = useRef();
+
+  useAlanAI();
+
   return (
     <div className="root">
       <CssBaseline />
@@ -21,6 +26,7 @@ function App() {
           <Route exact path="/actors/:id" element={<Actors />} />
         </Routes>
       </main>
+      <div ref={alanBtnContainer} />
     </div>
   );
 }
